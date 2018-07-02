@@ -41,10 +41,12 @@ async function getUserOnlineMerge(currentUserId) {
         if (lastMessage[0]) {
             mess = lastMessage[0].content
         }
+        let unRead =await messagesModel.getUnreads(room._id);
         merge.push({
             name: userEmail,
             _id: room._id,
-            messages: mess
+            messages: mess,
+            unread:unRead.length
         });
     }
     return merge;
@@ -88,4 +90,7 @@ function getNameofListUserOnline(){
     });
     return res;
 }
-module.exports = {getUserOnlineMerge,isInRoom,setUserOnline,removeUserOnline,listUserOnline,getNameofListUserOnline};
+function updateListUser(){
+
+}
+module.exports = {getUserOnlineMerge,isInRoom,setUserOnline,removeUserOnline,getNameofListUserOnline};

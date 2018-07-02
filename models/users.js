@@ -57,7 +57,7 @@ users.auth = async ({email,password})=>{
 };
 
 users.setAllOffline = async()=>{
-    return await users.update({},{$set:{isOnline:false}});
+    return await users.update({},{$set:{isOnline:false}},{ multi: true });
 };
 users.setAUserOffline = async (userId)=>{
     return users.update({_id:userId},{$set:{isOnline:false}});

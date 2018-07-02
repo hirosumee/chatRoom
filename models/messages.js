@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var schema = new mongoose.Schema({
+let schema = new mongoose.Schema({
     content: {
         type: String
     },
@@ -21,6 +21,14 @@ var schema = new mongoose.Schema({
     timestamps: true
 });
 let messages = mongoose.model('messages', schema);
+
+messages.getUnreads = async function(roomId){
+    return await messages.find({room: roomId, isRead: false});
+};
+
+messages.updateReaded = async function(roomId){
+    return await messages.update({room:roomId,isRead:false},{$set:{isRead:true}},{ multi: true });
+};
 
 messages.getMessages = async function (roomId, number,sort='-createdAt') {
     return await messages.find({
@@ -45,11 +53,5 @@ messages.getMessagesByIds = async function (Ids, number,roomsModel) {
     } catch (err) {
         throw err;
     }
-};
-messages.getUnreads = async function(roomId){
-    return await messages.find({room: roomId, isRead: false});
-};
-messages.updateReaded = async function(roomId){
-    return await messages.update({room:roomId,isRead:false},{$set:{isRead:true}});
 };
 module.exports = messages;

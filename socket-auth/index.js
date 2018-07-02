@@ -36,7 +36,7 @@ class Auth {
                         //emit event authenticated to user
                         socket.emit('authenticated', {user, ...options});
                     } catch (err) {
-                        throw err
+                        next();
                     }
                 }
             }
@@ -44,9 +44,8 @@ class Auth {
         }
     }
 
-    async createJwt(user) {
-        let token = await jsonToken.createToken(user);
-        return token;
+     static async createJwt(user) {
+        return  await jsonToken.createToken(user);
     }
 }
 

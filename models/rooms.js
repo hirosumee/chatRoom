@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const messagesModel = require('./messages');
-var schema = new mongoose.Schema({
+let schema = new mongoose.Schema({
     name: {
         type: String,
         unique: true
@@ -51,6 +51,7 @@ rooms.getRooms = async (memberId) => {
             if (isGroup) {
                 let lastMessage = '';
                 let mgms = await messagesModel.getMessages(_id, 1);
+                let unRead =await messagesModel.getUnreads(_id);
                 if (mgms && mgms.length > 0) {
                     mgms = mgms[0];
                     lastMessage = mgms.content;
@@ -58,7 +59,8 @@ rooms.getRooms = async (memberId) => {
                 roomsName.push({
                     name,
                     messages: lastMessage,
-                    _id
+                    _id,
+                    unread:unRead.length
                 });
             }
         }
