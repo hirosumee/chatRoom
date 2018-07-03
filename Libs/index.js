@@ -1,6 +1,7 @@
 const usersModel = require('../models/users');
 const roomsModel = require('../models/rooms');
 const messagesModel = require('../models/messages');
+const callsModel = require('../models/calls');
 
 // array of user online
 let userOnline = new Map();
@@ -15,6 +16,7 @@ async function createRoomName(usersId) {
     }
     return name;
 }
+
 async function getUserOnlineMerge(currentUserId) {
     let users = listUserOnline();
     let merge = [];
@@ -22,12 +24,12 @@ async function getUserOnlineMerge(currentUserId) {
         let id = item._id;
         let userEmail = item.email;
         let room = await roomsModel.findOne({
-            $or:[{members: [id, currentUserId]},{members: [currentUserId,id]}],
+            $or: [{members: [id, currentUserId]}, {members: [currentUserId, id]}],
             isGroup: false
         });
         if (!room) {
             //created rooms if not found
-            let name =await createRoomName([id, currentUserId]);
+            let name = await createRoomName([id, currentUserId]);
             //create here
             room = await roomsModel.create({
                 members: [id, currentUserId],
@@ -41,16 +43,17 @@ async function getUserOnlineMerge(currentUserId) {
         if (lastMessage[0]) {
             mess = lastMessage[0].content
         }
-        let unRead =await messagesModel.getUnreads(room._id);
+        let unRead = await messagesModel.getUnreads(room._id);
         merge.push({
             name: userEmail,
             _id: room._id,
             messages: mess,
-            unread:unRead.length
+            unread: unRead.length
         });
     }
     return merge;
 }
+
 function isInRoom(roomId, roomsId) {
     for (let i = 0; i < roomsId.length; i++) {
         let item = roomsId[i];
@@ -63,7 +66,7 @@ function isInRoom(roomId, roomsId) {
 
 
 function setUserOnline(user, socketId) {
-    let tmp  = JSON.stringify(user);
+    let tmp = JSON.stringify(user);
     if (!userOnline.has(tmp)) {
         userOnline.set(tmp, new Set())
     }
@@ -71,26 +74,54 @@ function setUserOnline(user, socketId) {
 }
 
 function removeUserOnline(user, socketId) {
-    let tmp  = JSON.stringify(user);
+    let tmp = JSON.stringify(user);
     userOnline.get(tmp).delete(socketId);
-    if(userOnline.get(tmp).size===0){
+    if (userOnline.get(tmp).size === 0) {
         userOnline.delete(tmp);
     }
 }
 
 function listUserOnline() {
     let data = [...userOnline.keys()];
-    data = data.map((item)=>JSON.parse(item));
+    data = data.map((item) => JSON.parse(item));
     return data;
 }
-function getNameofListUserOnline(){
+
+function getNameofListUserOnline() {
     let res = [];
-    listUserOnline().forEach((user)=>{
+    listUserOnline().forEach((user) => {
         res.push(user.email)
     });
     return res;
 }
-function updateListUser(){
+
+function updateListUser() {
 
 }
-module.exports = {getUserOnlineMerge,isInRoom,setUserOnline,removeUserOnline,getNameofListUserOnline};
+
+async function createNewCall(roomId,option) {
+    let call = await callsModel.create({room: roomId,option});
+    await roomsModel.update({_id: roomId}, {$set: {isCalling: true, lastCall: call._id}});
+    return call;
+}
+async function endCall(roomId){
+    return await roomsModel.update({_id: roomId}, {$set: {isCalling: false}});
+}
+async function getCall(roomId){
+    let data = await roomsModel.findById(roomId).populate('lastCall');
+    if(data){
+        return data.lastCall;
+    }
+    return {};
+}
+
+module.exports = {
+    getUserOnlineMerge,
+    isInRoom,
+    setUserOnline,
+    removeUserOnline,
+    getNameofListUserOnline,
+    createNewCall,
+    getCall,
+    endCall
+};

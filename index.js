@@ -15,7 +15,10 @@ const {
     isInRoom,
     setUserOnline,
     removeUserOnline,
-    getNameofListUserOnline
+    getNameofListUserOnline,
+    createNewCall,
+    getCall,
+    endCall
 } = require('./Libs/index');
 //
 const app = express();
@@ -38,12 +41,12 @@ const io = require('socket.io')(server, {
 });
 
 
-io.use(auth.middleware(async (socket, user,next) => {
-    let rooms =[];
+io.use(auth.middleware(async (socket, user, next) => {
+    let rooms = [];
     let mg = [];
     if (user) {
-        let  us =usersModel.findOne({_id:user._id,email:user.email});
-        if(!us){
+        let us = usersModel.findOne({_id: user._id, email: user.email});
+        if (!us) {
             next('not found user');
         } else {
             next();
@@ -54,10 +57,10 @@ io.use(auth.middleware(async (socket, user,next) => {
         socket.join(rooms.roomsId);
         setUserOnline(user, socket.id);
         mg = await getUserOnlineMerge(user._id);
-        setInterval(async()=>{
-            let updateUserOnline =await getUserOnlineMerge(user._id)
-            socket.emit('checkUser',updateUserOnline);
-        },30000);
+        setInterval(async () => {
+            let updateUserOnline = await getUserOnlineMerge(user._id)
+            socket.emit('checkUser', updateUserOnline);
+        }, 5000);
     }
     // ignore current user
     return {
@@ -171,13 +174,13 @@ io.on('connection', (socket) => {
             console.log(e);
         }
     });
-    socket.on('readedMessage',async (roomId)=>{
+    socket.on('readedMessage', async (roomId) => {
         try {
             // because some time when created new room The room is not join automatic .
             // then we should update joined rooms
             let updateRooms = await roomsModel.getRoomsId(socket.user._id);
             socket.join(updateRooms);
-            if(socket.isAuthenticated&&roomId&&isInRoom(roomId, updateRooms)){
+            if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
                 await messagesModel.updateReaded(roomId);
             } else {
                 throw  new Error('not Authenticated')
@@ -186,21 +189,59 @@ io.on('connection', (socket) => {
             console.log(e.message);
         }
     });
-    socket.on('call',async (roomId)=>{
-       try {
-           // because some time when created new room The room is not join automatic .
-           // then we should update joined rooms
-           let updateRooms = await roomsModel.getRoomsId(socket.user._id);
-           socket.join(updateRooms);
-           if(socket.isAuthenticated&&roomId&&isInRoom(roomId, updateRooms)){
-               console.log(roomId)
-               io.to(roomId).emit('receiveCall',{...socket.user,roomId});
-           } else {
-               throw  new Error('not Authenticated')
-           }
-       } catch (e) {
-           console.log(e.message);
-       }
+    socket.on('createACall', async ({roomId,option},fn) => {
+        try {
+            // because some time when created new room The room is not join automatic .
+            // then we should update joined rooms
+            let updateRooms = await roomsModel.getRoomsId(socket.user._id);
+            socket.join(updateRooms);
+            if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
+                //check in call
+                let r = roomsModel.findById(roomId).populate('lastCall');
+                let call;
+                if(r&&r.isCalling){
+                    call =  r.lastCall;
+                } else {
+                    //create a room and send it to  user create
+                    call = await createNewCall(roomId,option);
+                }
+                fn(call._id);
+            } else {
+                throw  new Error('not Authenticated')
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
+    });
+    socket.on('call', async (roomId) => {
+        try {
+            // because some time when created new room The room is not join automatic .
+            // then we should update joined rooms
+            let updateRooms = await roomsModel.getRoomsId(socket.user._id);
+            socket.join(updateRooms);
+            if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
+                let call = await getCall(roomId);
+                io.to(roomId).emit('receiveCall', {email: socket.user.email, roomId:call._id,option:call.option});
+            } else {
+                throw  new Error('not Authenticated')
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
+    });
+    socket.on('endCall', async (roomId) => {
+        try {
+            let updateRooms = await roomsModel.getRoomsId(socket.user._id);
+            socket.join(updateRooms);
+            if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
+                endCall(roomId);
+                io.to(roomId).emit('endcall', {email: socket.user.email, roomId});
+            } else {
+                throw  new Error('not Authenticated');
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
     });
 });
 

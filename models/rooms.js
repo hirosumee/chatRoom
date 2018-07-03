@@ -14,6 +14,14 @@ let schema = new mongoose.Schema({
     isGroup: {
         type: Boolean,
         default: false
+    },
+    isCalling:{
+        type:Boolean,
+        default:false
+    },
+    lastCall:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'calls'
     }
 }, {
     timestamp: true

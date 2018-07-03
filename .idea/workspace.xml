@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7cba3808-49d9-44a1-8a60-e7eddc723500" name="Default" comment="delete unused function">
+    <list default="true" id="7cba3808-49d9-44a1-8a60-e7eddc723500" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/models/calls.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Libs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/Libs/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/messages.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/messages.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/rooms.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/rooms.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/users.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/socket-auth/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/socket-auth/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -3015,8 +3013,35 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="335">
-              <caret line="196" column="73" lean-forward="true" selection-start-line="196" selection-start-column="73" selection-end-line="196" selection-end-column="73" />
+            <state relative-caret-position="-205">
+              <caret line="220" column="37" selection-start-line="220" selection-start-column="37" selection-end-line="220" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rooms.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/rooms.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="546">
+              <caret line="21" column="12" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calls.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/calls.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="546">
+              <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Libs/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2912">
+              <caret line="112" column="29" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -3050,9 +3075,11 @@
       <list>
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/socket-auth/index.js" />
-        <option value="$PROJECT_DIR$/models/rooms.js" />
         <option value="$PROJECT_DIR$/models/messages.js" />
         <option value="$PROJECT_DIR$/models/users.js" />
+        <option value="$PROJECT_DIR$/models/rooms.js" />
+        <option value="$PROJECT_DIR$/models/call.js" />
+        <option value="$PROJECT_DIR$/models/calls.js" />
         <option value="$PROJECT_DIR$/Libs/index.js" />
         <option value="$PROJECT_DIR$/index.js" />
       </list>
@@ -3080,13 +3107,14 @@
     <option name="width" value="1940" />
     <option name="height" value="1050" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -3108,11 +3136,13 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/index.js" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
@@ -3128,8 +3158,26 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Node.js.server">
     <configuration name="server" type="NodeJSConfigurationType" factoryName="Node.js" path-to-js-file="index.js" working-dir="$PROJECT_DIR$" />
+    <configuration name="test" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
+    <list>
+      <item itemvalue="Node.js.server" />
+      <item itemvalue="npm.test" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.test" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -3154,7 +3202,10 @@
       <workItem from="1530487683963" duration="999000" />
       <workItem from="1530492080468" duration="6086000" />
       <workItem from="1530512234677" duration="1509000" />
-      <workItem from="1530516837400" duration="3471000" />
+      <workItem from="1530516837400" duration="5278000" />
+      <workItem from="1530540362718" duration="377000" />
+      <workItem from="1530581801194" duration="13627000" />
+      <workItem from="1530611808642" duration="234000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1530453835500</created>
@@ -3163,25 +3214,40 @@
       <option name="project" value="LOCAL" />
       <updated>1530453835500</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="add video and audio call ability">
+      <created>1530523726866</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1530523726866</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48443000" />
+    <option name="totallyTimeSpent" value="64254000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="838" extended-state="7" />
-    <editor active="true" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16442953" />
-      <window_info anchor="bottom" id="TODO" order="5" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992722" visible="true" weight="0.16589557" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.32896653" />
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32896653" />
-      <window_info anchor="right" x="579" y="357" width="591" height="306" id="Run" order="3" side_tool="true" type="WINDOWED" weight="0.3268229" />
-      <window_info id="npm" order="2" side_tool="true" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32791328" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="8" visible="true" weight="0.32896653" />
+      <window_info anchor="right" x="388" y="349" width="591" height="306" id="Run" order="3" side_tool="true" type="WINDOWED" weight="0.3268229" />
+      <window_info id="npm" order="2" sideWeight="0.5007278" side_tool="true" weight="0.16442953" />
+      <window_info id="Structure" order="1" sideWeight="0.5007278" side_tool="true" weight="0.16442953" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32751092" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="2" weight="0.39834026" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -3229,21 +3295,15 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
     <MESSAGE value="delete unused function" />
-    <option name="LAST_COMMIT_MESSAGE" value="delete unused function" />
+    <MESSAGE value="add video and audio call ability" />
+    <option name="LAST_COMMIT_MESSAGE" value="add video and audio call ability" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <option name="time" value="8" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/rooms.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="52">
-          <caret line="2" column="34" lean-forward="true" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/socket-auth/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -3544,13 +3604,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/rooms.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1482">
-          <caret line="78" column="31" lean-forward="true" selection-start-line="78" selection-start-column="31" selection-end-line="78" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/socket-auth/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="413">
@@ -3558,31 +3611,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Libs/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1170">
-          <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/messages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="26">
+        <state relative-caret-position="231">
           <caret line="29" column="32" selection-start-line="29" selection-start-column="26" selection-end-line="29" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/users.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="569">
+        <state relative-caret-position="335">
           <caret line="62" column="23" selection-start-line="62" selection-start-column="17" selection-end-line="62" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Libs/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2912">
+          <caret line="112" column="29" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/calls.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/rooms.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="21" column="12" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="335">
-          <caret line="196" column="73" lean-forward="true" selection-start-line="196" selection-start-column="73" selection-end-line="196" selection-end-column="73" />
+        <state relative-caret-position="-205">
+          <caret line="220" column="37" selection-start-line="220" selection-start-column="37" selection-end-line="220" selection-end-column="37" />
         </state>
       </provider>
     </entry>
