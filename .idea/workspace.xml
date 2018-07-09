@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cba3808-49d9-44a1-8a60-e7eddc723500" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/models/calls.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Libs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/Libs/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/rooms.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/rooms.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/messages.js" beforeDir="false" afterPath="$PROJECT_DIR$/models/messages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/socket-auth/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/socket-auth/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -3013,8 +3015,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-205">
-              <caret line="220" column="37" selection-start-line="220" selection-start-column="37" selection-end-line="220" selection-end-column="37" />
+            <state relative-caret-position="2760">
+              <caret line="115" column="40" lean-forward="true" selection-start-line="115" selection-start-column="40" selection-end-line="115" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -3022,8 +3024,17 @@
       <file leaf-file-name="rooms.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/rooms.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
+            <state relative-caret-position="504">
               <caret line="21" column="12" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="12" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="files.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routers/files.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1464">
+              <caret line="61" column="85" selection-start-line="61" selection-start-column="85" selection-end-line="61" selection-end-column="85" />
             </state>
           </provider>
         </entry>
@@ -3031,17 +3042,8 @@
       <file leaf-file-name="calls.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/calls.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
+            <state relative-caret-position="504">
               <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Libs/index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2912">
-              <caret line="112" column="29" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -3082,6 +3084,7 @@
         <option value="$PROJECT_DIR$/models/calls.js" />
         <option value="$PROJECT_DIR$/Libs/index.js" />
         <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/routers/files.js" />
       </list>
     </option>
   </component>
@@ -3101,9 +3104,12 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
+    <option name="x" value="640" />
+    <option name="y" value="205" />
     <option name="width" value="1940" />
     <option name="height" value="1050" />
   </component>
@@ -3122,16 +3128,6 @@
               <item name="server" type="b2602c69:ProjectViewProjectNode" />
               <item name="server" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="Libs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="models" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -3140,7 +3136,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/index.js" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../client" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
@@ -3205,7 +3201,15 @@
       <workItem from="1530516837400" duration="5278000" />
       <workItem from="1530540362718" duration="377000" />
       <workItem from="1530581801194" duration="13627000" />
-      <workItem from="1530611808642" duration="234000" />
+      <workItem from="1530611808642" duration="2159000" />
+      <workItem from="1530622587307" duration="2632000" />
+      <workItem from="1530667854641" duration="2833000" />
+      <workItem from="1530686253530" duration="45000" />
+      <workItem from="1530775369890" duration="2309000" />
+      <workItem from="1530974338757" duration="556000" />
+      <workItem from="1531028302152" duration="2000" />
+      <workItem from="1531101744672" duration="4583000" />
+      <workItem from="1531118381489" duration="273000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1530453835500</created>
@@ -3221,11 +3225,18 @@
       <option name="project" value="LOCAL" />
       <updated>1530523726866</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="change some call function">
+      <created>1530612071843</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1530612071843</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64254000" />
+    <option name="totallyTimeSpent" value="79646000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -3238,23 +3249,24 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992722" visible="true" weight="0.16589557" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992722" visible="true" weight="0.17184402" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32896653" />
       <window_info anchor="bottom" id="Docker" order="6" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="8" visible="true" weight="0.32896653" />
-      <window_info anchor="right" x="388" y="349" width="591" height="306" id="Run" order="3" side_tool="true" type="WINDOWED" weight="0.3268229" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32896653" />
+      <window_info anchor="bottom" x="674" y="345" width="707" height="257" id="Run" order="11" side_tool="true" weight="0.37263465" />
       <window_info id="npm" order="2" sideWeight="0.5007278" side_tool="true" weight="0.16442953" />
       <window_info id="Structure" order="1" sideWeight="0.5007278" side_tool="true" weight="0.16442953" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32751092" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32751092" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="2" weight="0.39834026" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="Messages" order="6" weight="0.3292683" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.3292683" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
@@ -3296,7 +3308,8 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="delete unused function" />
     <MESSAGE value="add video and audio call ability" />
-    <option name="LAST_COMMIT_MESSAGE" value="add video and audio call ability" />
+    <MESSAGE value="change some call function" />
+    <option name="LAST_COMMIT_MESSAGE" value="change some call function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3304,13 +3317,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/socket-auth/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="11" column="43" lean-forward="true" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5304">
@@ -3627,29 +3633,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Libs/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2912">
-          <caret line="112" column="29" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
+        <state relative-caret-position="1920">
+          <caret line="80" column="5" selection-start-line="80" selection-start-column="5" selection-end-line="80" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/calls.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
+        <state relative-caret-position="504">
           <caret line="21" column="22" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/models/rooms.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
+        <state relative-caret-position="504">
           <caret line="21" column="12" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routers/files.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1464">
+          <caret line="61" column="85" selection-start-line="61" selection-start-column="85" selection-end-line="61" selection-end-column="85" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-205">
-          <caret line="220" column="37" selection-start-line="220" selection-start-column="37" selection-end-line="220" selection-end-column="37" />
+        <state relative-caret-position="2760">
+          <caret line="115" column="40" lean-forward="true" selection-start-line="115" selection-start-column="40" selection-end-line="115" selection-end-column="40" />
         </state>
       </provider>
     </entry>

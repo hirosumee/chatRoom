@@ -36,7 +36,7 @@ class Auth {
                         //emit event authenticated to user
                         socket.emit('authenticated', {user, ...options});
                     } catch (err) {
-                        next();
+                        next(err);
                     }
                 }
             }

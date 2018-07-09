@@ -2,12 +2,15 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const http = require('http');
+const logger = require('morgan');
+const cookies_parser = require('cookie-parser');
 //
 const usersModel = require('./models/users');
 const roomsModel = require('./models/rooms');
 const messagesModel = require('./models/messages');
 //
 const authSocket = require('./socket-auth');
+
 //
 const conf = require('./config');
 const {
@@ -15,13 +18,18 @@ const {
     isInRoom,
     setUserOnline,
     removeUserOnline,
-    getNameofListUserOnline,
     createNewCall,
     getCall,
     endCall
 } = require('./Libs/index');
 //
 const app = express();
+
+app.use(cookies_parser());
+app.use(logger('dev'));
+app.use(express.urlencoded({extended:false}));
+app.use(express.json());
+app.use('/',require('./routers'));
 //
 const auth = new authSocket(roomsModel, usersModel);
 //
@@ -58,9 +66,9 @@ io.use(auth.middleware(async (socket, user, next) => {
         setUserOnline(user, socket.id);
         mg = await getUserOnlineMerge(user._id);
         setInterval(async () => {
-            let updateUserOnline = await getUserOnlineMerge(user._id)
+            let updateUserOnline = await getUserOnlineMerge(user._id);
             socket.emit('checkUser', updateUserOnline);
-        }, 5000);
+        }, 30000);
     }
     // ignore current user
     return {
@@ -114,8 +122,7 @@ io.on('connection', (socket) => {
         }
     });
     //
-    socket.on('disconnect', function (reason) {
-        console.log(reason);
+    socket.on('disconnect', function () {
         if (socket.user) {
             removeUserOnline(socket.user, socket.id);
         }
@@ -160,10 +167,16 @@ io.on('connection', (socket) => {
             if (_id && isInRoom(_id, updateRooms)) {
                 let messages = await messagesModel.getMessages(_id, null, 'createdAt');
                 messages = messages.map((item) => {
+                    let fileType;
+                    if(item.file){
+                        fileType = item.file.mimetype;
+                    }
                     return {
-                        content: item.content,
+                        content: item.content||item.file.originalname,
                         sender: item.sender.email,
-                        timestamp: item.createdAt
+                        timestamp: item.createdAt,
+                        type:item.type,
+                        fileType
                     }
                 });
                 fn(messages);
@@ -197,12 +210,17 @@ io.on('connection', (socket) => {
             socket.join(updateRooms);
             if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
                 //check in call
-                let r = roomsModel.findById(roomId).populate('lastCall');
+                let r = await roomsModel.findById(roomId).populate('lastCall').exec();
+                // if(r&&r.isGroup){
+                //     throw  new Error('Not support call group');
+                // }
                 let call;
                 if(r&&r.isCalling){
                     call =  r.lastCall;
+                    console.log('go to get call')
                 } else {
                     //create a room and send it to  user create
+                    console.log('go to create new call');
                     call = await createNewCall(roomId,option);
                 }
                 fn(call._id);

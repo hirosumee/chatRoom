@@ -13,40 +13,60 @@ let schema = new mongoose.Schema({
         ref: 'rooms',
         required: true
     },
-    isRead:{
-        type:Boolean,
-        default:false
+    isRead: {
+        type: Boolean,
+        default: false
+    },
+    type:{
+        type:String,
+        default:'text'
+    },
+    file:{
+        type:Object,
+        default:{}
     }
 }, {
     timestamps: true
 });
 let messages = mongoose.model('messages', schema);
 
-messages.getUnreads = async function(roomId){
-    return await messages.find({room: roomId, isRead: false});
-};
-
-messages.updateReaded = async function(roomId){
-    return await messages.update({room:roomId,isRead:false},{$set:{isRead:true}},{ multi: true });
-};
-
-messages.getMessages = async function (roomId, number,sort='-createdAt') {
+messages.getUnreads = async function (roomId) {
     return await messages.find({
-        room: roomId
-    })
+        room: roomId,
+        isRead: false
+    });
+};
+
+messages.updateReaded = async function (roomId) {
+    return await messages.update({
+        room: roomId,
+        isRead: false
+    }, {
+        $set: {
+            isRead: true
+        }
+    }, {
+        multi: true
+    });
+};
+
+messages.getMessages = async function (roomId, number, sort = '-createdAt') {
+    return await messages.find({
+            room: roomId
+        })
         .limit(number || 1000000)
         .sort(sort)
         .populate('sender');
 };
-messages.getMessagesByIds = async function (Ids, number,roomsModel) {
+messages.getMessagesByIds = async function (Ids, number, roomsModel) {
     try {
         let room = await roomsModel.findOne({
             members: {
                 $all: [...Ids]
             },
-            isGroup:false
+            isGroup: false
         });
-        if(!room){
+        if (!room) {
             throw new Error('room not found');
         }
         return await messages.getMessages(room._id);
