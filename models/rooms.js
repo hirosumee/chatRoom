@@ -63,6 +63,9 @@ rooms.getRooms = async (memberId) => {
                 if (mgms && mgms.length > 0) {
                     mgms = mgms[0];
                     lastMessage = mgms.content;
+                    if(typeof(lastMessage) === 'string'){
+                        lastMessage = lastMessage.substring(0,20);
+                    }
                 }
                 roomsName.push({
                     name,

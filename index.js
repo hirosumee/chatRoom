@@ -27,9 +27,11 @@ const app = express();
 
 app.use(cookies_parser());
 app.use(logger('dev'));
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({
+    extended: false
+}));
 app.use(express.json());
-app.use('/',require('./routers'));
+app.use('/', require('./routers'));
 //
 const auth = new authSocket(roomsModel, usersModel);
 //
@@ -53,7 +55,10 @@ io.use(auth.middleware(async (socket, user, next) => {
     let rooms = [];
     let mg = [];
     if (user) {
-        let us = usersModel.findOne({_id: user._id, email: user.email});
+        let us = usersModel.findOne({
+            _id: user._id,
+            email: user.email
+        });
         if (!us) {
             next('not found user');
         } else {
@@ -140,7 +145,7 @@ io.on('connection', (socket) => {
             if (_id && isInRoom(_id, updateRooms) && socket.isAuthenticated) {
                 //create this message
                 await messagesModel.create({
-                    content,
+                    content:content.substring(0,100),
                     room: _id,
                     sender: socket.user._id
                 });
@@ -156,26 +161,26 @@ io.on('connection', (socket) => {
         }
     });
     //
-    socket.on('getMessage', async (_id, fn) => {
+    socket.on('getMessage', async ({_id,from}, fn) => {
         try {
             if (!socket.isAuthenticated) {
-                throw  new Error('not Authenticated');
+                throw new Error('not Authenticated');
             }
             //update room;
             let updateRooms = await roomsModel.getRoomsId(socket.user._id);
             socket.join(updateRooms);
             if (_id && isInRoom(_id, updateRooms)) {
-                let messages = await messagesModel.getMessages(_id, null, 'createdAt');
+                let messages = await messagesModel.getMessages(_id, 10, '-createdAt',from);
                 messages = messages.map((item) => {
                     let fileType;
-                    if(item.file){
+                    if (item.file) {
                         fileType = item.file.mimetype;
                     }
                     return {
-                        content: item.content||item.file.originalname,
+                        content: item.content || item.file.originalname,
                         sender: item.sender.email,
                         timestamp: item.createdAt,
-                        type:item.type,
+                        type: item.type,
                         fileType
                     }
                 });
@@ -187,6 +192,27 @@ io.on('connection', (socket) => {
             console.log(e);
         }
     });
+    socket.on('searchMessage', async ({roomId, text}, fn) => {
+        try {
+            if (!socket.isAuthenticated) {
+                throw new Error('not Authenticated');
+            }
+            //update room
+            let updateRooms = await roomsModel.getRoomsId(socket.user._id);
+            socket.join(updateRooms);
+            if (roomId && isInRoom(roomId, updateRooms)) {
+                // invoke search here
+                let msg = await messagesModel.findMessages(text, [roomId]);
+                fn(msg.hits.hits);
+            } else {
+                //get in all room user in
+                let msg = await  messagesModel.findMessages(text, updateRooms);
+                fn(msg.hits.hits);
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    });
     socket.on('readedMessage', async (roomId) => {
         try {
             // because some time when created new room The room is not join automatic .
@@ -196,13 +222,16 @@ io.on('connection', (socket) => {
             if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
                 await messagesModel.updateReaded(roomId);
             } else {
-                throw  new Error('not Authenticated')
+                throw new Error('not Authenticated')
             }
         } catch (e) {
             console.log(e.message);
         }
     });
-    socket.on('createACall', async ({roomId,option},fn) => {
+    socket.on('createACall', async ({
+                                        roomId,
+                                        option
+                                    }, fn) => {
         try {
             // because some time when created new room The room is not join automatic .
             // then we should update joined rooms
@@ -215,17 +244,17 @@ io.on('connection', (socket) => {
                 //     throw  new Error('Not support call group');
                 // }
                 let call;
-                if(r&&r.isCalling){
-                    call =  r.lastCall;
+                if (r && r.isCalling) {
+                    call = r.lastCall;
                     console.log('go to get call')
                 } else {
                     //create a room and send it to  user create
                     console.log('go to create new call');
-                    call = await createNewCall(roomId,option);
+                    call = await createNewCall(roomId, option);
                 }
                 fn(call._id);
             } else {
-                throw  new Error('not Authenticated')
+                throw new Error('not Authenticated')
             }
         } catch (e) {
             console.log(e.message);
@@ -239,9 +268,13 @@ io.on('connection', (socket) => {
             socket.join(updateRooms);
             if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
                 let call = await getCall(roomId);
-                io.to(roomId).emit('receiveCall', {email: socket.user.email, roomId:call._id,option:call.option});
+                io.to(roomId).emit('receiveCall', {
+                    email: socket.user.email,
+                    roomId: call._id,
+                    option: call.option
+                });
             } else {
-                throw  new Error('not Authenticated')
+                throw new Error('not Authenticated')
             }
         } catch (e) {
             console.log(e.message);
@@ -253,9 +286,12 @@ io.on('connection', (socket) => {
             socket.join(updateRooms);
             if (socket.isAuthenticated && roomId && isInRoom(roomId, updateRooms)) {
                 endCall(roomId);
-                io.to(roomId).emit('endcall', {email: socket.user.email, roomId});
+                io.to(roomId).emit('endcall', {
+                    email: socket.user.email,
+                    roomId
+                });
             } else {
-                throw  new Error('not Authenticated');
+                throw new Error('not Authenticated');
             }
         } catch (e) {
             console.log(e.message);

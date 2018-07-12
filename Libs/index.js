@@ -42,6 +42,9 @@ async function getUserOnlineMerge(currentUserId) {
         let mess = undefined;
         if (lastMessage[0]) {
             mess = lastMessage[0].content
+            if(typeof(mess) === 'string'){
+                mess = mess.substring(0,20);
+            }
         }
         let unRead = await messagesModel.getUnreads(room._id);
         merge.push({

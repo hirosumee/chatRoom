@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const mongoosastic = require('mongoosastic');
 
 let schema = new mongoose.Schema({
     content: {
-        type: String
+        type: String,
+        es_indexed: true
     },
     sender: {
         type: mongoose.Schema.Types.ObjectId,
@@ -11,24 +13,33 @@ let schema = new mongoose.Schema({
     room: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'rooms',
-        required: true
+        required: true,
+        es_indexed: true
     },
     isRead: {
         type: Boolean,
         default: false
     },
-    type:{
-        type:String,
-        default:'text'
+    type: {
+        type: String,
+        default: 'text'
     },
-    file:{
-        type:Object,
-        default:{}
+    file: {
+        type: Object,
+        default: {}
     }
 }, {
     timestamps: true
 });
+schema.plugin(mongoosastic, {
+    hydrate: true,
+    hydrateWithESResults: true,
+    hydrateOptions: {
+        select: 'sender content room'
+    },
+});
 let messages = mongoose.model('messages', schema);
+
 
 messages.getUnreads = async function (roomId) {
     return await messages.find({
@@ -50,11 +61,12 @@ messages.updateReaded = async function (roomId) {
     });
 };
 
-messages.getMessages = async function (roomId, number, sort = '-createdAt') {
+messages.getMessages = async function (roomId, number, sort = '-createdAt',from =0) {
     return await messages.find({
             room: roomId
         })
-        .limit(number || 1000000)
+        .skip(from)
+        .limit(number || 10)
         .sort(sort)
         .populate('sender');
 };
@@ -74,4 +86,55 @@ messages.getMessagesByIds = async function (Ids, number, roomsModel) {
         throw err;
     }
 };
+
+messages.findMessages = function (text, roomsId, from, size) {
+    return new Promise((resolve, reject) => {
+        // set up room list
+        let data = [];
+        if (Array.isArray(roomsId)) {
+            data = roomsId.map((item) => {
+                return {
+                    "term": {
+                        "room": {
+                            "value": item
+                        }
+                    }
+                }
+            });
+        }
+        // build query
+        let value = text ? `*${text}*` : '*';
+        let query = {
+            from: from || 0,
+            size: size || 100,
+            query: {
+                "bool": {
+                    "must": [{
+                            "wildcard": {
+                                "content": {
+                                    "value": value
+                                }
+                            }
+                        },
+                        {
+                            "bool": {
+                                "should": [
+                                    ...data
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+        };
+        return messages.esSearch(query, function (err, result) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+    });
+};
+
 module.exports = messages;
